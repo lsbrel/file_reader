@@ -65,7 +65,7 @@ cliente_endereco = ClienteEndereco()
 
 def chooseFluxo():
     if sys.argv[2] == '--client':
-        pass
+        client()
 
     elif sys.argv[2] == '--city':
         city()
@@ -80,6 +80,25 @@ def chooseFluxo():
         print("no mode selected")
         sys.exit()
 
+
+
+def client():
+    aux = file_controller.print(csv_line['Cliente'])
+
+    id = cliente.findByName(aux)
+
+    if id:
+        file_controller.setData(index=item, value=id, position='Cliente')
+
+    else:
+        input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
+
+        if(input_value == 's'):
+            cliente.create([aux, 1, 2])
+            file_controller.setData(index=item, value=cliente.getId(), position='Cliente')
+
+        else:
+            file_controller.setData(index=item, value=input_value, position='Cliente')
 
 
 def city():
@@ -99,6 +118,9 @@ def city():
 
     elif aux == 'EV':
         file_controller.setData(index=item, value='9', position='Cidade')
+
+    elif aux == 'NH':
+        file_controller.setData(index=item, value='6', position='Cidade')
 
     else:
         input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
@@ -159,10 +181,7 @@ if __name__ == '__main__':
     for item in range(file_controller.getNumLines()):
         csv_line = file_controller.getData(index=item)
 
-
         chooseFluxo()
-
-
 
 
     file_controller.saveFile(sys.argv[1])
