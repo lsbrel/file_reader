@@ -1,4 +1,4 @@
-Data;Mês;OS;Aparelho;Cliente;Telefone;Servico;Mês.1;Data.1;Valor;Rua;Num;Unnamed: 12;Cidade
+Data;Mês;OS;Aparelho;Cliente;Telefone;Servico;Mes;Pagamento;Valor;Rua;Num;Bairro;Cidade
 26/7;;-;1;67;;2;;; R$ -   ;-;-;-;4
 31/7;;7160;1;68;98159-5280;29,35,2;1.0;30/1;#REF!;Albino Hugo Mueller;509;Cidade Nova;2
 4/12;;-;1;60;-;2;;; R$ -   ;Capivara;-;Boa Vista;4
