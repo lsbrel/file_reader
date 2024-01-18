@@ -271,6 +271,8 @@ if __name__ == '__main__':
     # INSTANCIANDO CONTROLLERS
 
     # MAIN LOOP
+    print(f'Running the file => {sys.argv[1]}')
+
     for item in range(file_controller.getNumLines()):
         csv_line = file_controller.getData(index=item)
 
