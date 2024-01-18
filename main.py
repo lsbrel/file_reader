@@ -64,7 +64,11 @@ cliente_endereco = ClienteEndereco()
 
 
 def chooseFluxo():
-    if sys.argv[2] == '--client':
+
+    if sys.argv[2] == '--service':
+        pass
+
+    elif sys.argv[2] == '--client':
         client()
 
     elif sys.argv[2] == '--city':
