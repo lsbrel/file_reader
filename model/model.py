@@ -50,6 +50,14 @@ class Model:
         else:
             return False
 
+
+    def find(self, id):
+        cursor = self.db.getCursor()
+        cursor.execute(f'SELECT nome from {self.__getTable()} WHERE id = "{id}"')
+
+        nome = cursor.fetchone()
+        return self.__cleanData(nome)
+
     # GETTER
 
     def getId(self):
@@ -92,4 +100,6 @@ class Model:
     def __trim(self, data):
         return re.sub("[^0-9]","", f"{data}")
 
+    def __cleanData(self, data):
+        return data[0]
     # PRIVATE METHODS #
