@@ -2,6 +2,7 @@
 
 # LIBS
 import sys
+import math
 # LIBS
 
 # MODELS
@@ -24,30 +25,6 @@ from controller.inputController import InputController
 # CONTROLLER
 
 
-# POSICOES DE INSERCAO
-field_position = {
-    "d":{
-        "data_servico": 0,
-        "orem_servico": 2,
-        "aparelho": 3,
-        "cliente": 4,
-        "telefone": 5,
-        "tipo_servico": 6,
-        "data_pagamento": 8,
-        "rua": 9,
-        "numero": 10,
-        "cidade": 11
-    },
-    "e": {
-
-    },
-    "f":{
-
-    }
-}
-# POSICOES DE INSERCAO
-
-
 # INSTANCIANDO MODELS
 aparelho = Aparelho()
 cliente = Cliente()
@@ -66,7 +43,7 @@ cliente_endereco = ClienteEndereco()
 def chooseFluxo():
 
     if sys.argv[2] == '--service':
-        pass
+        service()
 
     elif sys.argv[2] == '--client':
         client()
@@ -80,14 +57,96 @@ def chooseFluxo():
     elif sys.argv[2] == '--equipment':
         equipment()
 
+    elif sys.argv[2] == '--payment':
+        payment()
+
     else:
         print("no mode selected")
         sys.exit()
 
 
 
+def service():
+
+    # PAGAMENTO
+    data_pagamento = file_controller.prettier(csv_line['Pagamento'])
+    data_pagamento = f'{file_controller.getYear(sys.argv[1])}-{file_controller.transformDate(date=data_pagamento)}'
+
+    try:
+        forma_pagamento = file_controller.prettier(csv_line['Forma'])
+    except:
+        forma_pagamento = 9
+
+    pagamento.create(data=(data_pagamento, 3, forma_pagamento))
+    # PAGAMENTO
+
+    # SERVICO
+    data_servico = file_controller.prettier(csv_line['Data'])
+    data_servico = f'{file_controller.getYear(sys.argv[1])}-{file_controller.transformDate(date=data_servico)}'
+
+    ordem_servico = file_controller.prettier(csv_line['OS'])
+    if ordem_servico != 'NaN' and ordem_servico != '-':
+        pass
+    else:
+        ordem_servico = '0'
+
+    aparelho_id = file_controller.prettier(csv_line['Aparelho'])
+
+    cliente_id = file_controller.prettier(csv_line['Cliente'])
+
+
+    servico.create(data=(ordem_servico, data_servico, aparelho_id, 4, cliente_id, 2, pagamento.getId()))
+    # SERVICO
+
+
+    # ENDERECO
+    rua = file_controller.prettier(csv_line['Rua'])
+    if rua == '-':
+        rua = ''
+
+    num = file_controller.prettier(csv_line['Num'])
+    if num == '-':
+        num = ''
+
+    bairro = file_controller.prettier(csv_line['Bairro'])
+    if bairro == '-':
+        bairro = ''
+
+    cidade_id = file_controller.prettier(csv_line['Cidade'])
+    endereco.create(data=(rua ,num, bairro, cidade_id))
+    cliente_endereco.create(data=(cliente_id, endereco.getId()))
+
+    # ENDERECO
+
+    # TELEFONE
+    numero = file_controller.prettier(csv_line['Telefone'])
+
+    if(numero == '-' or numero == 'NaN'):
+        pass
+
+    else:
+        if(int(numero[0]) > 1 and int(numero[0]) < 6 and len(numero) == 9):
+            tipo_telefone_id = 1
+
+        else:
+            tipo_telefone_id = 2
+
+
+        id = telefone.findByAttr(attr='numero', value=numero)
+
+        if id:
+            cliente_telefone.create(data=(cliente_id, id))
+
+        else:
+            telefone.create(data=(numero, tipo_telefone_id))
+            cliente_telefone.create(data=(cliente_id, telefone.getId()))
+
+    # TELEFONE
+
+
+
 def client():
-    aux = file_controller.print(csv_line['Cliente'])
+    aux = file_controller.prettier(csv_line['Cliente'])
 
     id = cliente.findByName(aux)
 
@@ -106,7 +165,7 @@ def client():
 
 
 def city():
-    aux = file_controller.print(csv_line['Cidade'])
+    aux = file_controller.prettier(csv_line['Cidade'])
 
     if aux == "PL":
         file_controller.setData(index=item, value='10', position='Cidade')
@@ -132,7 +191,7 @@ def city():
 
 def type_service():
 
-    aux = file_controller.print(csv_line['Servico'])
+    aux = file_controller.prettier(csv_line['Servico'])
 
     if aux == "Higienização":
         file_controller.setData(index=item, value='2', position='Servico')
@@ -163,7 +222,7 @@ def type_service():
 
 def equipment():
 
-    aux = file_controller.print(csv_line['Aparelho'])
+    aux = file_controller.prettier(csv_line['Aparelho'])
 
     if aux == "Ar Split":
         file_controller.setData(index=item, value=1, position='Aparelho')
@@ -171,6 +230,33 @@ def equipment():
     else:
         input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
         file_controller.setData(index=item, value=int(input_value), position='Aparelho')
+
+
+
+def payment():
+    aux = file_controller.prettier(csv_line['Forma'])
+
+    if aux == 'Pix PJ':
+        file_controller.setData(index=item, value=3 , position='Forma')
+
+    elif aux == 'Pix PF':
+        file_controller.setData(index=item, value=2 , position='Forma')
+
+    elif aux == 'Cartão':
+        file_controller.setData(index=item, value=6 , position='Forma')
+
+    elif aux == 'Ted PJ':
+        file_controller.setData(index=item, value=5 , position='Forma')
+
+    elif aux == 'Boleto':
+        file_controller.setData(index=item, value=1 , position='Forma')
+
+    elif aux == 'R$':
+        file_controller.setData(index=item, value=8 , position='Forma')
+
+    else:
+        input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
+        file_controller.setData(index=item, value=int(input_value), position='Forma')
 
 
 if __name__ == '__main__':
@@ -188,7 +274,13 @@ if __name__ == '__main__':
     for item in range(file_controller.getNumLines()):
         csv_line = file_controller.getData(index=item)
 
+        # HEADER
+        print(f'inserindo => [{item+1}/{file_controller.getNumLines()}]')
+        # HEADER
+
+
         chooseFluxo()
 
 
-    file_controller.saveFile(sys.argv[1])
+    print(f'Finalizado em => {time_controller.getRunTime()} segundos')
+    # file_controller.saveFile(sys.argv[1])

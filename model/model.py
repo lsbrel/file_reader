@@ -58,6 +58,14 @@ class Model:
         nome = cursor.fetchone()
         return self.__cleanData(nome)
 
+
+    def findByAttr(self, attr, value):
+        cursor = self.db.getCursor()
+        cursor.execute(f'SELECT id FROM {self.__getTable()} WHERE {attr} = "{value}"')
+
+        final_attr = cursor.fetchone()
+        return self.__cleanData(final_attr)
+
     # GETTER
 
     def getId(self):
@@ -87,7 +95,7 @@ class Model:
             sys.exit()
 
         elif len(data) < len(self.attr):
-            print("Data has not all attrbutes")
+            print("Data has less attrbutes than required")
             sys.exit()
 
     def __addTimeStamp(self,data):
@@ -101,5 +109,9 @@ class Model:
         return re.sub("[^0-9]","", f"{data}")
 
     def __cleanData(self, data):
-        return data[0]
+        try:
+            return data[0]
+
+        except:
+            return False
     # PRIVATE METHODS #

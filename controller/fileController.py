@@ -24,10 +24,21 @@ class FileController:
 
         return self.num_lines
 
-    def print(self, file):
+    def prettier(self, file):
 
         return file.to_string(index=False)
 
+    def getYear(self,file):
+        aux = file.split('-')[0]
+        return aux[-4:]
+
+    def transformDate(self, date):
+        try:
+            date = date.split('/')
+            return f'{date[1]}-{date[0]}'
+
+        except:
+            return '01-01'
 
     # PRIVATE METHODS
 
