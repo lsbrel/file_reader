@@ -98,7 +98,7 @@ def client():
         input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
 
         if(input_value == 's'):
-            cliente.create([aux, 1, 2])
+            cliente.create(data=(aux, 1,2))
             file_controller.setData(index=item, value=cliente.getId(), position='Cliente')
 
         else:
