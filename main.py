@@ -74,7 +74,7 @@ def chooseFluxo():
     elif sys.argv[2] == '--city':
         city()
 
-    elif sys.argv[2] == '--type-sevice':
+    elif sys.argv[2] == '--type-service':
         type_service()
 
     elif sys.argv[2] == '--equipment':
