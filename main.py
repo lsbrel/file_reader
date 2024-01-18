@@ -146,7 +146,10 @@ def type_service():
     elif aux == "Desinstalar":
         file_controller.setData(index=item, value='6', position='Servico')
 
-    elif aux == "Desinstalar, higienizar e instalar" or aux == 'Higienizar, Desinstalar e Instalar':
+    elif aux == "Desinstalar e Instalar" or aux == 'Desinstalar, Instalar' or aux == "Desinstalação e Instalação":
+        file_controller.setData(index=item, value='6,5', position='Servico')
+
+    elif aux == "Desinstalar, higienizar e instalar" or aux == 'Higienizar, Desinstalar e Instalar' or aux == ' Higienização, Desinstalação e Instalação':
         file_controller.setData(index=item, value='2,5,6', position='Servico')
 
     elif aux == "Venda e Instalação":
@@ -155,7 +158,7 @@ def type_service():
 
     else:
         input_value = input(f"[{item}/{file_controller.getNumLines()}] {aux} => ")
-        file_controller.setData(index=item, value=int(input_value), position='Servico')
+        file_controller.setData(index=item, value=input_value, position='Servico')
 
 
 def equipment():
