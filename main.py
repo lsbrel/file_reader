@@ -275,12 +275,12 @@ if __name__ == '__main__':
         csv_line = file_controller.getData(index=item)
 
         # HEADER
-        print(f'inserindo => [{item+1}/{file_controller.getNumLines()}]')
+        print(f'Inserting row => [{item+1}/{file_controller.getNumLines()}]')
         # HEADER
 
 
         chooseFluxo()
 
 
-    print(f'Finalizado em => {time_controller.getRunTime()} segundos')
+    print(f'Finished in => {time_controller.getRunTime()} segundos')
     # file_controller.saveFile(sys.argv[1])
