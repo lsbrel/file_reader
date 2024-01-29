@@ -59,6 +59,14 @@ class Model:
         return self.__cleanData(nome)
 
 
+    def findLinkData(self, id, field):
+        cursor = self.db.getCursor()
+        cursor.execute(f'SELECT * from {self.__getTable()} WHERE {field} = "{id}"')
+
+        nome = cursor.fetchall()
+        return nome
+
+
     def findByAttr(self, attr, value):
         cursor = self.db.getCursor()
         cursor.execute(f'SELECT id FROM {self.__getTable()} WHERE {attr} = "{value}"')

@@ -113,8 +113,22 @@ def service():
         bairro = ''
 
     cidade_id = file_controller.prettier(csv_line['Cidade'])
-    endereco.create(data=(rua ,num, bairro, cidade_id))
-    cliente_endereco.create(data=(cliente_id, endereco.getId()))
+
+    addr_id = 0
+    for i in cliente_endereco.findLinkData(id=cliente_id, field='cliente_id'):
+        addr = endereco.findLinkData(id=i[2], field='id')
+        if(addr[0][2] == rua and addr[0][3] == num and addr[0][4] == bairro):
+            addr_id = addr[0][0]
+            break
+
+    if(addr_id == 0):
+        endereco.create(data=(rua ,num, bairro, cidade_id))
+        cliente_endereco.create(data=(cliente_id, endereco.getId()))
+        # Link com servico
+
+    else:
+        print("link")
+        # Link com servico
 
     # ENDERECO
 
