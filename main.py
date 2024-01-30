@@ -150,7 +150,8 @@ def service():
         id = telefone.findByAttr(attr='numero', value=numero)
 
         if id:
-            cliente_telefone.create(data=(cliente_id, id))
+            pass
+            # cliente_telefone.create(data=(cliente_id, id))
 
         else:
             telefone.create(data=(numero, tipo_telefone_id))
