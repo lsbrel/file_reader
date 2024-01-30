@@ -16,6 +16,7 @@ from model.telefone import Telefone
 from model.clienteTelefone import ClienteTelefone
 from model.endereco import Endereco
 from model.clienteEndereco import ClienteEndereco
+from model.servicoEndereco import ServicoEndereco
 # MODELS
 
 # CONTROLLER
@@ -36,6 +37,7 @@ telefone = Telefone()
 cliente_telefone = ClienteTelefone()
 endereco = Endereco()
 cliente_endereco = ClienteEndereco()
+servico_endereco = ServicoEndereco()
 # INSTANCIANDO MODELS
 
 
@@ -124,11 +126,10 @@ def service():
     if(addr_id == 0):
         endereco.create(data=(rua ,num, bairro, cidade_id))
         cliente_endereco.create(data=(cliente_id, endereco.getId()))
-        # Link com servico
+        servico_endereco.create(data=(servico.getId(), endereco.getId()))
 
     else:
-        print("link")
-        # Link com servico
+        servico_endereco.create(data=(servico.getId(), addr_id))
 
     # ENDERECO
 
