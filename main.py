@@ -97,7 +97,12 @@ def service():
     cliente_id = file_controller.prettier(csv_line['Cliente'])
 
 
-    servico.create(data=(ordem_servico, data_servico, aparelho_id, 4, cliente_id, 2, pagamento.getId()))
+    # CRIA O TIPO DE APARELHO
+    aparelho.create(data=('Ar condicionado', '', 2, aparelho_id, 1))
+    # CRIA O TIPO DE APARELHO
+
+
+    servico.create(data=(ordem_servico, data_servico, aparelho.getId(), 4, cliente_id, 2, pagamento.getId()))
     # SERVICO
 
 
